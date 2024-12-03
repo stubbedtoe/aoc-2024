@@ -1,6 +1,7 @@
 import scala.util.CommandLineParser
 import Day1.{ solve => day1 }
 import Day2.{ solve => day2 }
+import Day3.{ solve => day3 }
 // new days added here 
 
 enum Input:
@@ -21,6 +22,7 @@ given CommandLineParser.FromString[Part] with
   val completedDays: Map[Int, (List[String], Part) => String] = Map(
     1 -> day1,
     2 -> day2,
+    3 -> day3,
     // mappings added here
   )
   var result = completedDays.get(day) match {
