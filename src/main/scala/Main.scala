@@ -2,6 +2,7 @@ import scala.util.CommandLineParser
 import Day1.{ solve => day1 }
 import Day2.{ solve => day2 }
 import Day3.{ solve => day3 }
+import Day4.{ solve => day4 }
 // new days added here 
 
 enum Input:
@@ -23,6 +24,7 @@ given CommandLineParser.FromString[Part] with
     1 -> day1,
     2 -> day2,
     3 -> day3,
+    4 -> day4,
     // mappings added here
   )
   var result = completedDays.get(day) match {
