@@ -1,4 +1,6 @@
-## sbt project compiled with Scala 3
+# Advent of Code Solutions / (Attempts) 2024
+
+sbt project compiled with Scala 3
 
 ## First time set up
 
