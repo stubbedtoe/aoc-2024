@@ -13,7 +13,8 @@ At the root of the project, run `addDay.sh {dayIndex}` where `dayIndex` is the d
 ## Useful commands in SBT
 
 - `~run [dayIndex] [One|Two] [Test|Actual]` - this runs the specified day's code, either part One or Two, using either the Test or Actual input files (in watch mode)
-- `test`
+- `test` - run all tests
+- `~testOnly Day<dayIndex>` - run one day's tests in watch mode
 
 ### Usage
 
