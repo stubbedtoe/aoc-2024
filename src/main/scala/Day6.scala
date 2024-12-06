@@ -89,15 +89,17 @@ class MapOfArea(lines: List[String]):
         case None =>
           false
 
+  def reset() =
+    visited = Set((initialPosition._1, initialPosition._2, initialOrientation))
+    position = initialPosition
+    orientation = initialOrientation
+
   def willCauseLoop(obstructionLocation: (Int, Int)) =
     val (x, y) = obstructionLocation
     cells = cells.updated(x + y * bounds._1, (x, y, Cell.Obstruction))
     val causedLoop = iterate(Part.Two)
-    
     cells = cells.updated(x + y * bounds._1, (x, y, Cell.Empty))
-    visited = Set((initialPosition._1, initialPosition._2, initialOrientation))
-    position = initialPosition
-    orientation = initialOrientation
+    reset()
     causedLoop
 
 
@@ -117,16 +119,10 @@ object Day6 {
   def part2(lines: List[String]): String =
     val map = MapOfArea(lines)
     map()
-    val locationsForObstructions = (for {
-      x <- Range(0, map.bounds._1)
-      y <- Range(0, map.bounds._2)
-    } yield (x, y)).filter((x, y) =>
-      if ((x, y) == map.position) then
-        false
-      else
-        map.getCell((x, y)) match
-          case Some(Cell.Empty) => true
-          case _ => false
-    )
-    locationsForObstructions.count(map.willCauseLoop).toString()
+    map.iterate(Part.One)
+    val visited = map.visited
+    map.reset()
+    val locations = visited.map((x, y, _) => (x, y)).filter(loc => loc != map.position)
+    
+    locations.count(map.willCauseLoop).toString()
 }
