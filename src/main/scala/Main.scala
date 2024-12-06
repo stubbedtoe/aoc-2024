@@ -4,6 +4,7 @@ import Day2.{ solve => day2 }
 import Day3.{ solve => day3 }
 import Day4.{ solve => day4 }
 import Day5.{ solve => day5 }
+import Day6.{ solve => day6 }
 // new days added here 
 
 enum Input:
@@ -27,6 +28,7 @@ given CommandLineParser.FromString[Part] with
     3 -> day3,
     4 -> day4,
     5 -> day5,
+    6 -> day6,
     // mappings added here
   )
   var result = completedDays.get(day) match {
