@@ -7,7 +7,7 @@ enum Cell:
 
 case class Position(x: Int, y: Int)
 
-case class AreaMap(cells: Map[Position, Cell], width: Int, height: Int)
+type AreaMap = Map[Position, Cell]
 
 case class State(visited: Set[(Position, Orientation)], position: Position, orientation: Orientation)
 
@@ -15,8 +15,7 @@ case class Result(visited: Set[(Position, Orientation)], looped: Boolean)
 
 def initialise(lines: List[String]): (AreaMap, State) =
   val width = lines.head.length
-  val height = lines.length
-  val cells = 
+  val areaMap = 
     Map.from(lines
       .zipWithIndex
       .map((line, y) =>
@@ -33,8 +32,6 @@ def initialise(lines: List[String]): (AreaMap, State) =
             (position, cell)
           ).toList
         ).toList.flatten)
-
-  val areaMap = AreaMap(cells, width, height)
 
   val charArray = lines.flatten.mkString.toCharArray()
 
@@ -58,7 +55,7 @@ def initialise(lines: List[String]): (AreaMap, State) =
     case _ =>
       throw new Exception("No start found") 
   
-  val state = State(Set((position, orientation)), position, orientation)
+  val state = State(Set.empty, position, orientation)
   (areaMap, state)
 
 
@@ -70,36 +67,38 @@ def turn(orientation: Orientation) =
     case Orientation.Left => Orientation.Up
 
 def move(position: Position, orientation: Orientation) =
+  val (x, y) = (position.x, position.y)
   orientation match
     case Orientation.Up =>
-      Position(position.x, position.y - 1)
+      Position(x, y - 1)
     case Orientation.Down =>
-      Position(position.x, position.y + 1)
+      Position(x, y + 1)
     case Orientation.Left =>
-      Position(position.x - 1, position.y)
+      Position(x - 1, y)
     case Orientation.Right =>
-      Position(position.x + 1, position.y)
+      Position(x + 1, y)
 
 @tailrec
 def iterate(areaMap: AreaMap, state: State): Result =
-  if (state.visited.size > 1 && state.visited.contains((state.position, state.orientation))) then
-    Result(state.visited, true)
+  val (visited, position, orientation) = (state.visited, state.position, state.orientation)
+  if (visited.contains((position, orientation)))
+    Result(visited, true)
   else
-    val nextPosition = move(state.position, state.orientation)
+    val nextPosition = move(position, orientation)
+    val nextVisited = visited + ((position, orientation))
     
-    areaMap.cells.get(nextPosition) match
+    areaMap.get(nextPosition) match
       case Some(Cell.Empty)=>
-        val newState = State(state.visited + ((state.position, state.orientation)), nextPosition, state.orientation)
+        val newState = State(visited = nextVisited, position = nextPosition, orientation = state.orientation)
         iterate(areaMap, newState)
       case Some(Cell.Obstruction) =>
-        val newOrientation = turn(state.orientation)
-        val newState = State(state.visited + ((state.position, state.orientation)), state.position, newOrientation)
+        val newState = State(visited = nextVisited, position = position, orientation = turn(orientation))
         iterate(areaMap, newState)
       case None =>
-        Result(state.visited + ((state.position, state.orientation)), false)
+        Result(nextVisited, false)
 
 def willCauseLoop(areaMap: AreaMap, state: State, obstructionLocation: Position): Boolean =
-  val withObstruction = AreaMap(areaMap.cells.updated(obstructionLocation, Cell.Obstruction), areaMap.width, areaMap.height)
+  val withObstruction = areaMap.updated(obstructionLocation, Cell.Obstruction)
   iterate(withObstruction, state).looped
 
 object Day6 {
