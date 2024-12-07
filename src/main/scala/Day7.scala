@@ -1,8 +1,5 @@
 import scala.util.matching.Regex
 
-enum Operator:
-  case Multiply, Add
-
 case class Line(target: Long, factors: List[Long])
 
 def canBeCalculated(target: Long, current: Long, others: List[Long], part: Part): Boolean =
