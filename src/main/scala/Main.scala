@@ -5,6 +5,7 @@ import Day3.{ solve => day3 }
 import Day4.{ solve => day4 }
 import Day5.{ solve => day5 }
 import Day6.{ solve => day6 }
+import Day7.{ solve => day7 }
 // new days added here 
 
 enum Input:
@@ -29,6 +30,7 @@ given CommandLineParser.FromString[Part] with
     4 -> day4,
     5 -> day5,
     6 -> day6,
+    7 -> day7,
     // mappings added here
   )
   var result = completedDays.get(day) match {
@@ -37,7 +39,7 @@ given CommandLineParser.FromString[Part] with
         val lines = io.Source.fromFile(filePath).getLines().toList
         function(lines, part)
       } catch {
-        case e => notDoneYet
+        case e => println(e) // notDoneYet
       }
       
     case None => notDoneYet
