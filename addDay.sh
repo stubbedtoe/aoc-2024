@@ -1,6 +1,11 @@
 IFS=
 export $(grep -v '#.*' .env | xargs)
 
+if test -f src/main/scala/Day$1.scala; then
+  echo "File exists. Exiting..."
+  exit 1
+fi
+
 curl -b "session=$GITHUB_TOKEN" https://adventofcode.com/2024/day/$1/input > src/inputs/actual/day$1.txt
 touch src/inputs/test/day$1.txt
 
