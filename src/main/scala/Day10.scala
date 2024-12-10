@@ -1,10 +1,5 @@
-type Altitude = Int
 type Location = (Int, Int)
-
-type TopologicalMap = Map[Location, Altitude]
-
-enum Compass:
-  case North, South, East, West
+type TopologicalMap = Map[Location, Int]
 
 object Day10 {
   def parse(lines: List[String]): TopologicalMap =
@@ -46,7 +41,7 @@ object Day10 {
       case Some(currentAltitude) =>
         val nextLocations = map.filter((loc, altitude) => altitude == currentAltitude + 1 && areAdjacent(location, loc))
         if (currentAltitude == 8)
-          nextLocations.keySet.map(p => p::previousLocations).size
+          nextLocations.keySet.size
         else
           nextLocations.map((loc, _) => trailheadRating(map, loc, location::previousLocations)).sum
       case None =>
