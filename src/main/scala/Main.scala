@@ -1,3 +1,5 @@
+package Aoc2024
+
 import scala.util.CommandLineParser
 import Day1.{ solve => day1 }
 import Day2.{ solve => day2 }
@@ -13,6 +15,7 @@ import Day11.{ solve => day11 }
 import Day12.{ solve => day12 }
 import Day14.{ solve => day14 }
 import Day15.{ solve => day15 }
+import Day16.{ solve => day16 }
 // new days added here 
 
 enum Input:
@@ -45,6 +48,7 @@ given CommandLineParser.FromString[Part] with
     12 -> day12,
     14 -> day14,
     15 -> day15,
+    16 -> day16,
     // mappings added here
   )
   var result = completedDays.get(day) match {

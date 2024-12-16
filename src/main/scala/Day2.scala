@@ -1,3 +1,5 @@
+package Aoc2024
+
 import scala.annotation.tailrec
 
 enum Direction:

@@ -1,6 +1,6 @@
 package Aoc2024
 
-object DayX {
+object Day16 {
   def solve(lines: List[String], part: Part): String =
     part match {
         case Part.One => part1(lines)

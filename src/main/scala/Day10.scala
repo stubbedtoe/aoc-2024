@@ -1,3 +1,5 @@
+package Aoc2024
+
 type Location = (Int, Int)
 type TopologicalMap = Map[Location, Int]
 

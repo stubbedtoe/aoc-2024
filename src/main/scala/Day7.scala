@@ -1,3 +1,5 @@
+package Aoc2024
+
 import scala.util.matching.Regex
 
 case class Line(target: Long, factors: List[Long])

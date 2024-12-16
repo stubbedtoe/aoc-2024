@@ -1,33 +1,36 @@
+package Aoc2024
+
 import scala.util.matching.Regex
 
-type Location = (Int, Int)
-
-class Robot(val position: Location, val velocity: Location):
-  
-  def move(maxX: Int, maxY: Int): Robot =
-    var nextX = position._1 + velocity._1
-    if (nextX < 0)
-      nextX = maxX + nextX
-    else if (nextX >= maxX)
-      nextX = nextX % maxX
-    var nextY = position._2 + velocity._2
-    if (nextY < 0)
-      nextY = maxY + nextY
-    else if (nextY >= maxY)
-      nextY = nextY % maxY
-    Robot(position = (nextX, nextY), velocity = velocity)
-
-  def movetimes(times: Int, maxX: Int, maxY: Int): Robot =
-    (1 to times).foldLeft(this)((robot, i) =>
-      robot.move(maxX, maxY)
-    )
-  
-
-  override def toString: String = s"Robot location: $position and velocity: $velocity"
-
-case class SetUp(robots: List[Robot], width: Int, height: Int)
-
 object Day14 {
+  type Location = (Int, Int)
+
+  class Robot(val position: Location, val velocity: Location):
+    
+    def move(maxX: Int, maxY: Int): Robot =
+      var nextX = position._1 + velocity._1
+      if (nextX < 0)
+        nextX = maxX + nextX
+      else if (nextX >= maxX)
+        nextX = nextX % maxX
+      var nextY = position._2 + velocity._2
+      if (nextY < 0)
+        nextY = maxY + nextY
+      else if (nextY >= maxY)
+        nextY = nextY % maxY
+      Robot(position = (nextX, nextY), velocity = velocity)
+
+    def movetimes(times: Int, maxX: Int, maxY: Int): Robot =
+      (1 to times).foldLeft(this)((robot, i) =>
+        robot.move(maxX, maxY)
+      )
+    
+
+    override def toString: String = s"Robot location: $position and velocity: $velocity"
+
+  case class SetUp(robots: List[Robot], width: Int, height: Int)
+
+
   def solve(lines: List[String], part: Part): String =
     part match {
         case Part.One => part1(lines)

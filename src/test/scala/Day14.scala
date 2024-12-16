@@ -1,3 +1,5 @@
+import Aoc2024.{aoc2024, Part, Input}
+
 // For more information on writing tests, see
 // https://scalameta.org/munit/docs/getting-started.html
 class Day14 extends munit.FunSuite {

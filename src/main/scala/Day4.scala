@@ -1,3 +1,5 @@
+package Aoc2024
+
 object Day4 {
   def solve(lines: List[String], part: Part): String =
     part match {

@@ -1,3 +1,5 @@
+package Aoc2024
+
 import scala.annotation.tailrec
 import scala.collection.immutable.NumericRange.Inclusive
 

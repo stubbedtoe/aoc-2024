@@ -1,3 +1,5 @@
+import Aoc2024.{aoc2024, Part, Input}
+
 // For more information on writing tests, see
 // https://scalameta.org/munit/docs/getting-started.html
 class Day15 extends munit.FunSuite {
@@ -8,7 +10,7 @@ class Day15 extends munit.FunSuite {
   }
 
   test("Day15 - part 2") {
-    val expected = ""
+    val expected = "9021"
     val obtained = aoc2024(15, Part.Two, Input.Test)
     assertEquals(expected, obtained)
   }

@@ -1,3 +1,5 @@
+package Aoc2024
+
 import scala.collection.View.Zip
 
 object Day1 {

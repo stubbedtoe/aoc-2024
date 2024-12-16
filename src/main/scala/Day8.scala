@@ -1,3 +1,5 @@
+package Aoc2024
+
 object Day8 {
   case class Location(x: Int, y: Int)
   type Antenna = (Location, Char)
