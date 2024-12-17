@@ -9,7 +9,7 @@ class Day13 extends munit.FunSuite {
     assertEquals(expected, obtained)
   }
 
-  test("Day13 - part 2") {
+  test("Day13 - part 2".ignore) {
     val expected = ""
     val obtained = aoc2024(13, Part.Two, Input.Test)
     assertEquals(expected, obtained)

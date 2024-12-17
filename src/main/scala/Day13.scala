@@ -1,10 +1,23 @@
 package Aoc2024
 
 import scala.util.matching.Regex
+import scala.annotation.tailrec
 
 object Day13 {
+  @tailrec
+  def highestCommonFactor(num1: Long, num2: Long): Long =
+    if num2 == 0 then
+      num1
+    else
+      highestCommonFactor(num2, num1 % num2)
+
+
   case class Button(x: Int, y: Int, cost: Int)
   case class Claw(buttonA: Button, buttonB: Button, prize: (Long, Long)):
+    def processForPart2(): Claw =
+      val toAdd = 10000000000000L
+      this.copy(prize = (prize._1 + toAdd, prize._2 + toAdd))
+
     def isSolvable(): Int =
       val solveCosts = 
         for {
@@ -17,6 +30,41 @@ object Day13 {
           n
         case None =>
           0
+
+    // def isSolvablePart2(): Long =
+    //   lazy val solveCosts: LazyList[Long] = 
+    //     for {
+    //       timesA <- (0L to 1000000000000L)
+    //       timesB <- (1000000000000L to 0L)
+    //       if ((timesA * buttonA.x + timesB * buttonB.x) == prize._1 && (timesA * buttonA.y + timesB * buttonB.y) == prize._2)
+    //     } yield (timesA * buttonA.cost) + (timesB * buttonB.cost)
+    //   solveCosts.headOption match
+    //     case Some(n) =>
+    //       n
+    //     case None =>
+    //       0
+
+    @tailrec
+    final def findMinimumCost(current: (Long, Long), times: Map[Button, Long]): Long =
+      if (current == prize) then
+        (times(buttonA) * buttonA.cost) + (times(buttonB) * buttonB.cost)
+      else if (current._1 > prize._1 || current._2 > prize._2)
+         // remove a press of buttom B
+        // println(s"un-pressing button B at ${current}")
+        findMinimumCost(
+          current = (current._1 - buttonB.x, current._2 - buttonB.y),
+          times = times.updated(buttonB, times(buttonB) - 1)
+        )
+      else if (times(buttonB) == 0) // it's not possible
+        println(s"not possible for $this")
+        0
+      else
+        findMinimumCost(
+          current = (current._1 + buttonA.x, current._2 + buttonA.y),
+          times = times.updated(buttonA, times(buttonA) + 1)
+        )
+
+
 
   def solve(lines: List[String], part: Part): String =
     part match {
@@ -44,5 +92,14 @@ object Day13 {
     claws.map(_.isSolvable()).sum.toString()
 
   def part2(lines: List[String]): String =
-    "Haven't solved part 2 yet"
+    val claws = splitIntoClaws(lines).map(_.processForPart2())
+    // claws.map(_.isSolvablePart2()).sum.toString()
+    claws.map(claw =>
+      val x = Math.floor(claw.prize._1 / claw.buttonB.x).toLong
+      val y = Math.floor(claw.prize._2 / claw.buttonB.y).toLong
+      val timesB = Math.min(x, y)
+      println(s"pressing B initially $timesB times")
+      println(s"current: ${(claw.buttonB.x * timesB, claw.buttonB.y * timesB)}")
+      claw.findMinimumCost(current = (claw.buttonB.x * timesB, claw.buttonB.y * timesB), times = Map(claw.buttonA -> 0, claw.buttonB -> timesB))  
+    ).sum.toString()
 }
